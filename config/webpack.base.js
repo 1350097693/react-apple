@@ -2,6 +2,8 @@
 const path = require("path");
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const ProgressBarPlugin = require("progress-bar-webpack-plugin");
+const chalk = require("chalk");
 
 module.exports = {
   entry: path.resolve(__dirname, "../src/index.js"), // 入口文件
@@ -40,7 +42,25 @@ module.exports = {
         use: [
           "style-loader",
           "css-loader",
-          
+          {
+            loader: "less-loader",
+            options: {
+              lessOptions: {
+                // modifyVars: {
+                //   "primary-color": "#5dbe8a",
+                //   "item-active-bg": "#5dbe8a",
+                //   "item-hover-bg": "#5dbe8a",
+                //   "radio-button-hover-color": "#5dbe8a",
+                //   "radio-button-active-color": "#5dbe8a",
+                //   "tooltip-bg": "#5dbe8a",
+                //   "font-size-base": "14px",
+                //   "border-radius-base": "2px",
+                //   "border-color-base": "#5dbe8a",
+                // },
+                javascriptEnabled: true,
+              },
+            },
+          },
         ],
       },
       {
@@ -57,5 +77,8 @@ module.exports = {
     }),
     // 清除上一次打包的文件
     new CleanWebpackPlugin(),
+    new ProgressBarPlugin({
+      format: `  :msg [:bar] ${chalk.green.bold(":percent")} (:elapsed s)`,
+    }),
   ],
 };
